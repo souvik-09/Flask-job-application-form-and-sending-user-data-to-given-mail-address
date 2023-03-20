@@ -13,6 +13,7 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = environ.get('DB_URI') 
     app.config["MAIL_PORT"] = 465
     app.config["MAIL_USE_SSL"] = True
+    app.config["MAIL_SERVER"] = 'smtp.gmail.com'
     app.config["MAIL_USERNAME"] = environ.get('MAIL_USERNAME') 
     app.config["MAIL_PASSWORD"] = environ.get('MAIL_PASSWORD') 
     app.config["SQLALCHEMY_ECHO"] = False
@@ -40,9 +41,10 @@ def create_app():
                 db.session.add(form)
                 db.session.commit()
                 
-                message_body = f"Thank you for your submission, {first_name}, " \
-                                f"Here are your data: \n {first_name} \n {last_name} \n {occupation}" \
-                                    f"Your joining date is: \n {date} \n " \
+                message_body = f"Thank you for your submission, {first_name}. \n " \
+                                f"Here are your data: \n {first_name} {last_name} \n"  \
+                                    f"Your occupation: {occupation} \n " \
+                                     f"Your joining date is: {date} \n " \
                                         f"Thank you!"
                 message = Message(subject="New form submission",
                                   sender=app.config["MAIL_USERNAME"],
